@@ -1,0 +1,29 @@
+name: Run tests
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 0 * * *'
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install poetry
+        run: pipx install --python python -poetry==1.3.1
+      - name: Checkout git repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Python 3.10
+        uses: actions/setup-python@4
+        with:
+          python-version: '3.10'
+          architecture: 'x64'
+          cache: 'poetry'
+      - name: Install Python depemdemcies
+        run: poetry install -n
+      - name: Run tests
+        run: poetry run pytest
+        shell: bash
+        env:
+          USERNAME: ${{ env.USERNAME }}
+          PASSWORD: ${{ env.PASSWORD }}

@@ -1,0 +1,5 @@
+.env
+.idea
+# Created by pytest automatically.
+__pycache__/
+.pytest_cache/
